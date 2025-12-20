@@ -1,0 +1,45 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Cache untuk Face Recognition Models (24 jam)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    <FilesMatch "\.(json|shard.*)$">
+        ExpiresDefault "access plus 24 hours"
+    </FilesMatch>
+</IfModule>
+
+<IfModule mod_headers.c>
+    # Cache model files untuk 24 jam
+    <FilesMatch "\.(json|shard.*)$">
+        Header set Cache-Control "public, max-age=86400, immutable"
+    </FilesMatch>
+</IfModule>
+
+# NO CACHE untuk foto wajah di folder facerecognition (selalu fetch fresh)
+<LocationMatch "^/storage/uploads/facerecognition/">
+    <IfModule mod_headers.c>
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </IfModule>
+</LocationMatch>
