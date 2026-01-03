@@ -2,13 +2,23 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * @method bool hasRole(string|array $roles, string|null $guard = null)
+ * @method bool hasAnyRole(string|array $roles, string|null $guard = null)
+ * @method bool hasAllRoles(string|array $roles, string|null $guard = null)
+ * @method void assignRole(string|array $roles)
+ * @method void removeRole(string|array $roles)
+ * @method void syncRoles(string|array $roles)
+ * @method bool hasPermissionTo(string|array $permission, string|null $guard = null)
+ * @method bool can(string|array $permission, string|null $guard = null)
+ * @method void givePermissionTo(string|array $permission)
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
@@ -18,8 +28,6 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-
-
     protected $fillable = [
         'name',
         'username',

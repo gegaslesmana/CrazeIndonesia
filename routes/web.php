@@ -323,17 +323,46 @@ Route::middleware('auth')->group(function () {
         Route::delete('/penyesuaiangaji/{kode_penyesuaian_gaji}/{nik}/deletekaryawan', 'destroykaryawan')->name('penyesuaiangaji.deletekaryawan')->can('penyesuaiangaji.delete');
     });
 
+Route::controller(SlipgajiController::class)->group(function () {
 
-    Route::controller(SlipgajiController::class)->group(function () {
-        Route::get('/slipgaji', 'index')->name('slipgaji.index')->can('slipgaji.index');
-        Route::get('/slipgaji/create', 'create')->name('slipgaji.create')->can('slipgaji.create');
-        Route::post('/slipgaji/store', 'store')->name('slipgaji.store')->can('slipgaji.create');
-        Route::get('/slipgaji/{kode_slip}/show', 'show')->name('slipgaji.show')->can('slipgaji.index');
-        Route::get('/slipgaji/{kode_slip}/edit', 'edit')->name('slipgaji.edit')->can('slipgaji.edit');
-        Route::put('/slipgaji/{kode_slip}/update', 'update')->name('slipgaji.update')->can('slipgaji.edit');
-        Route::delete('/slipgaji/{kode_slip}/delete', 'destroy')->name('slipgaji.delete')->can('slipgaji.delete');
-        Route::get('/slipgaji/{nik}/{bulan}/{tahun}/cetakslip', 'cetakslipgaji')->name('slipgaji.cetakslip')->can('slipgaji.index');
-    });
+    Route::get('/slipgaji', 'index')
+        ->name('slipgaji.index')
+        ->can('slipgaji.index');
+
+    Route::get('/slipgaji/create', 'create')
+        ->name('slipgaji.create')
+        ->can('slipgaji.create');
+
+    Route::post('/slipgaji/store', 'store')
+        ->name('slipgaji.store')
+        ->can('slipgaji.create');
+
+    Route::get('/slipgaji/{kode_slip}/show', 'show')
+        ->name('slipgaji.show')
+        ->can('slipgaji.index');
+
+    Route::get('/slipgaji/{kode_slip}/edit', 'edit')
+        ->name('slipgaji.edit')
+        ->can('slipgaji.edit');
+
+    Route::put('/slipgaji/{kode_slip}/update', 'update')
+        ->name('slipgaji.update')
+        ->can('slipgaji.edit');
+
+    Route::delete('/slipgaji/{kode_slip}/delete', 'destroy')
+        ->name('slipgaji.delete')
+        ->can('slipgaji.delete');
+
+    Route::get('/slipgaji/{nik}/{bulan}/{tahun}/cetakslip', 'cetakslipgaji')
+        ->name('slipgaji.cetakslip')
+        ->can('slipgaji.index');
+
+    // 🔥 TAMBAHKAN INI SAJA
+    Route::post('/slipgaji/{kode_slip}/publish', 'publish')
+        ->name('slipgaji.publish')
+        ->can('slipgaji.edit');
+});
+
 
     Route::middleware('role:super admin')->controller(HariliburController::class)->group(function () {
         Route::get('/harilibur', 'index')->name('harilibur.index');
